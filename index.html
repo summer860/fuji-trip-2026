@@ -168,6 +168,23 @@ h2 svg{width:34px;height:34px;flex:none}
 .car b{font-weight:400;font-size:16px;display:block}
 .car:nth-child(1){background:var(--coral-t)}.car:nth-child(2){background:var(--mizu-t)}.car:nth-child(3){background:var(--take-t)}
 
+/* ---------- 天氣 ---------- */
+.wcards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wcard{padding:12px 10px 12px;text-align:center}
+.wcard.tk{background:var(--coral-t)}.wcard.kw{background:var(--take-t)}
+.wcard h3{margin:0;font-weight:400;font-size:17px}
+.wicon{display:block;width:64px;height:64px;margin:4px auto 2px}
+.wtemp{font-size:34px;line-height:1.1;font-variant-numeric:tabular-nums}
+.wdesc{font-size:15px}
+.wsub{font-size:13px;color:var(--ink-soft);line-height:1.5}
+.fc{margin-top:12px;padding:12px 14px 14px}
+.fc h3{margin:0 0 8px;font-weight:400;font-size:18px}
+.fc-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center;font-size:13px;line-height:1.35}
+.fc-row div{border:2px solid var(--ink);border-radius:12px;padding:5px 2px;background:var(--paper)}
+.fc-row svg{width:34px;height:34px;display:block;margin:2px auto}
+.fc-row b{font-weight:400;font-size:14px;display:block}
+.fc-wait{margin:0;font-size:14px;color:var(--ink-soft)}
+
 /* ---------- 清單 ---------- */
 .wx{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .wx div{padding:10px 12px;font-size:14px;line-height:1.5}
@@ -236,6 +253,7 @@ footer svg{width:120px;height:auto;display:block;margin:0 auto 6px}
     <button data-go="flight">航班</button>
     <button data-go="days">行程</button>
     <button data-go="stay">住宿</button>
+    <button data-go="tools">天氣</button>
     <button data-go="todo">清單</button>
   </div>
 </nav>
@@ -382,6 +400,16 @@ footer svg{width:120px;height:auto;display:block;margin:0 auto 6px}
       <p class="room-cap" style="margin:10px 0 0">攜伴同仁與伴侶同車，每車 5 人＋行李；請副駕協助導航與留意路況。</p>
     </article>
   </div>
+</section>
+
+<!-- 天氣 -->
+<section id="tools" data-sec>
+  <h2><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="15" cy="15" r="8" fill="#F6D27A" stroke="#3E3A39" stroke-width="3"/><path d="M10 33 a7 7 0 0 1 2-13 a9 9 0 0 1 17 1 a6 6 0 0 1 2 12z" fill="#fff" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/></svg>天氣</h2>
+  <div class="wcards" id="wnow">
+    <div class="card wcard tk"><h3>東京上野</h3><p class="wsub">讀取天氣中…</p></div>
+    <div class="card wcard kw"><h3>河口湖</h3><p class="wsub">讀取天氣中…</p></div>
+  </div>
+  <div class="card fc"><h3>旅途預報</h3><div id="wtrip"><p class="fc-wait">讀取中…</p></div></div>
 </section>
 
 <!-- 清單 -->
@@ -611,6 +639,47 @@ footer svg{width:120px;height:auto;display:block;margin:0 auto 6px}
   listEl.addEventListener('change',function(e){var k=e.target.dataset.k;if(!k)return;if(e.target.checked)state[k]=1;else delete state[k];save();prog();});
   document.getElementById('reset').addEventListener('click',function(){state={};save();[].forEach.call(listEl.querySelectorAll('input'),function(i){i.checked=false;});prog();});
   prog();
+
+  /* ---------- 天氣 ---------- */
+  var WS='stroke="#3E3A39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
+  var CLOUD='<path d="M14 50 a10 10 0 0 1 3-19 a14 14 0 0 1 27 1 a9 9 0 0 1 3 18z" fill="#fff" '+WS+'/>';
+  function wicon(t,cls){
+    var s='<svg class="'+(cls||'')+'" viewBox="0 0 64 64" aria-hidden="true">';
+    if(t==='sun') s+='<g class="spin"><path d="M32 6v7M32 51v7M6 32h7M51 32h7M14 14l5 5M45 45l5 5M14 50l5-5M45 19l5-5" '+WS+'/></g><circle cx="32" cy="32" r="12" fill="#F6D27A" '+WS+'/>';
+    else if(t==='part') s+='<circle cx="38" cy="22" r="11" fill="#F6D27A" '+WS+'/><g class="drift">'+CLOUD+'</g>';
+    else if(t==='rain') s+='<g class="drift">'+CLOUD.replace('#fff','#E1F0F7')+'</g><path class="flow" d="M22 54v6M32 54v6M42 54v6" stroke="#A8D3E6" stroke-width="4" stroke-linecap="round"/>';
+    else if(t==='snow') s+='<g class="drift">'+CLOUD+'</g><g fill="#A8D3E6" stroke="#3E3A39" stroke-width="2"><circle class="twinkle" cx="22" cy="58" r="3"/><circle class="twinkle" style="animation-delay:-.6s" cx="34" cy="58" r="3"/><circle class="twinkle" style="animation-delay:-1.2s" cx="46" cy="58" r="3"/></g>';
+    else if(t==='fog') s+=CLOUD+'<path d="M12 56h40M18 61h28" '+WS+'/>';
+    else s+='<path d="M30 40 a8 8 0 0 1 2-15 a11 11 0 0 1 21 1 a7 7 0 0 1 2 14z" fill="#E1F0F7" '+WS+'/><g class="drift">'+CLOUD+'</g>';
+    return s+'</svg>';
+  }
+  function wmo(c){
+    if(c<=1)return['sun','晴'];if(c===2)return['part','晴時多雲'];if(c===3)return['cloud','陰天'];
+    if(c===45||c===48)return['fog','有霧'];if((c>=71&&c<=77)||c===85||c===86)return['snow','下雪'];
+    if(c>=95)return['rain','雷雨'];if(c>=51&&c<=57)return['rain','毛毛雨'];if(c>=58)return['rain','下雨'];return['cloud','多雲'];
+  }
+  var LOCS=[{n:'東京上野',c:'tk'},{n:'河口湖',c:'kw'}];
+  var TRIP=[['2026-11-12',0,'四'],['2026-11-13',0,'五'],['2026-11-14',1,'六'],['2026-11-15',1,'日'],['2026-11-16',0,'一']];
+  var wurl='https://api.open-meteo.com/v1/forecast?latitude=35.7075,35.5117&longitude=139.7795,138.7651&current=temperature_2m,apparent_temperature,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FTokyo&forecast_days=16';
+  function wfail(){
+    document.getElementById('wnow').innerHTML=LOCS.map(function(l){return '<div class="card wcard '+l.c+'"><h3>'+l.n+'</h3><p class="wsub">目前讀不到天氣資料，稍後重新整理再試一次</p></div>';}).join('');
+    document.getElementById('wtrip').innerHTML='<p class="fc-wait">預報暫時無法顯示</p>';
+  }
+  fetch(wurl).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(data){
+    if(!Array.isArray(data))throw 0;
+    document.getElementById('wnow').innerHTML=data.map(function(d,i){
+      var w=wmo(d.current.weather_code),dl=d.daily;
+      return '<div class="card wcard '+LOCS[i].c+'"><h3>'+LOCS[i].n+'</h3>'+wicon(w[0],'wicon')+'<div class="wtemp">'+Math.round(d.current.temperature_2m)+'°C</div><div class="wdesc">'+w[1]+'</div><div class="wsub">體感 '+Math.round(d.current.apparent_temperature)+'°・今天 '+Math.round(dl.temperature_2m_min[0])+'° – '+Math.round(dl.temperature_2m_max[0])+'°<br>降雨機率 '+(dl.precipitation_probability_max[0]==null?'–':dl.precipitation_probability_max[0])+'%</div></div>';
+    }).join('');
+    var cells=TRIP.map(function(t){
+      var dl=data[t[1]].daily,k=dl.time.indexOf(t[0]);
+      if(k<0)return null;
+      var w=wmo(dl.weather_code[k]);
+      return '<div><b>'+t[0].slice(5).replace('-','/')+'</b>（'+t[2]+'）'+wicon(w[0])+Math.round(dl.temperature_2m_min[k])+'°–'+Math.round(dl.temperature_2m_max[k])+'°<br>☂ '+(dl.precipitation_probability_max[k]==null?'–':dl.precipitation_probability_max[k])+'%<br><span class="wsub">'+LOCS[t[1]].n.replace('上野','')+'</span></div>';
+    });
+    var ok=cells.filter(Boolean).length;
+    document.getElementById('wtrip').innerHTML=ok?'<div class="fc-row">'+cells.map(function(c,i){return c||'<div><b>'+TRIP[i][0].slice(5).replace('-','/')+'</b>（'+TRIP[i][2]+'）<br><span class="wsub">尚無預報</span></div>';}).join('')+'</div>':'<p class="fc-wait">行程日的預報大約出發前兩週（10/28 左右）開始出現，到時這裡會顯示 11/12–11/16 每天的天氣。</p>';
+  }).catch(wfail);
 
   /* ---------- 選單 ---------- */
   var navBtns=[].slice.call(document.querySelectorAll('.nav button'));
