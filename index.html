@@ -156,45 +156,17 @@ h2 svg{width:34px;height:34px;flex:none}
 .stay-b ul{margin:0 0 12px;padding-left:20px;font-size:15px}
 .rooms{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 @media (min-width:560px){.rooms{grid-template-columns:repeat(4,1fr)}}
-/* 床 */
-.rooms{gap:16px 10px}
-.bed{position:relative;padding-bottom:9px;--hb:var(--coral);--qt:var(--coral-t)}
-.stay.kw .bed{--hb:var(--take);--qt:var(--take-t)}
-.bed-head{margin:0 8px;height:26px;border:3px solid var(--ink);border-bottom:0;border-radius:16px 16px 0 0;background:var(--hb);display:flex;justify-content:center;align-items:center}
-.bed-head i{font-style:normal;width:22px;height:22px;border-radius:50%;border:2px solid var(--ink);background:#fff;display:grid;place-items:center;font-size:13px;line-height:1}
-.bed-mat{border:3px solid var(--ink);border-radius:10px 10px 14px 14px;background:#fff;overflow:hidden}
-.pillows{display:flex;gap:5px;padding:6px 7px}
-.pillow{flex:1;height:15px;border:2px solid var(--ink);border-radius:8px;background:var(--paper);position:relative}
-.pillow::after{content:"";position:absolute;left:25%;right:25%;top:4px;border-top:2px solid #D9D4CF;border-radius:2px}
-.quilt{position:relative;border-top:3px solid var(--ink);background:var(--qt);padding:7px 10px 9px;min-height:58px;font-size:14px;line-height:1.45}
-.quilt::before{content:"";position:absolute;inset:5px;border:2px dashed rgba(62,58,57,.28);border-radius:8px;pointer-events:none}
-.quilt span{display:block;position:relative}
-.bed::before,.bed::after{content:"";position:absolute;bottom:0;width:8px;height:12px;background:var(--ink);border-radius:0 0 3px 3px}
-.bed::before{left:10px}.bed::after{right:10px}
+.room{border:2px solid var(--ink);border-radius:12px;padding:6px 10px;font-size:14px;line-height:1.4;display:flex;gap:8px;align-items:center;background:var(--paper)}
+.room i{font-style:normal;flex:none;width:24px;height:24px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-size:13px;background:#fff}
+.stay.tk .room i{background:var(--coral)}.stay.kw .room i{background:var(--take)}
 .room-cap{font-size:13px;color:var(--ink-soft);margin:0 0 8px}
 .cars{padding:14px 16px 16px}
 .cars h3{margin:0 0 10px;font-weight:400;font-size:19px}
-/* 車 */
-.car-row{display:grid;gap:22px 14px}
-@media (min-width:600px){.car-row{grid-template-columns:repeat(3,1fr)}}
-.vehicle{position:relative;padding-bottom:18px}
-.v-roof{display:block;width:100%;height:42px;margin-bottom:-3px}
-.v-body{position:relative;border:3px solid var(--ink);border-radius:16px 22px 14px 14px;background:var(--vc);padding:10px 14px 24px}
-.v-body::before{content:"";position:absolute;right:-3px;top:14px;width:12px;height:12px;border:3px solid var(--ink);border-right:0;border-radius:8px 0 0 8px;background:var(--yama)}
-.v-body::after{content:"";position:absolute;left:-3px;top:14px;width:9px;height:12px;border:3px solid var(--ink);border-left:0;border-radius:0 6px 6px 0;background:var(--coral)}
-.v-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.plate{background:#fff;border:2px solid var(--ink);border-radius:6px;padding:0 10px;font-size:15px}
-.v-cap{font-size:13px}
-.driver{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:4px 10px;margin-bottom:8px;font-size:15px}
-.driver svg{width:24px;height:24px;flex:none}
-.driver small{font-size:12px;color:var(--ink-soft)}
-.riders{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
-.riders li{background:var(--paper);border:2px solid var(--ink);border-radius:999px;padding:0 10px;font-size:14px}
-.wheel{position:absolute;bottom:0;width:38px;height:38px;border-radius:50%;background:var(--paper);border:10px solid var(--ink)}
-.wheel.l{left:16%}.wheel.r{right:16%}
-.vehicle .v-body{animation:idle 1.2s ease-in-out infinite alternate}
-.vehicle:nth-child(2) .v-body{animation-delay:-.4s}.vehicle:nth-child(3) .v-body{animation-delay:-.8s}
-@keyframes idle{to{transform:translateY(-1.5px)}}
+.car-row{display:grid;gap:8px}
+@media (min-width:560px){.car-row{grid-template-columns:repeat(3,1fr)}}
+.car{border:2px solid var(--ink);border-radius:12px;padding:8px 12px;font-size:14px;line-height:1.5}
+.car b{font-weight:400;font-size:16px;display:block}
+.car:nth-child(1){background:var(--coral-t)}.car:nth-child(2){background:var(--mizu-t)}.car:nth-child(3){background:var(--take-t)}
 
 /* ---------- 清單 ---------- */
 .wx{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
@@ -402,7 +374,11 @@ footer svg{width:120px;height:auto;display:block;margin:0 auto 6px}
     </article>
     <article class="card cars">
       <h3>自駕分車（Day 3–5）</h3>
-      <div class="car-row" id="cars"></div>
+      <div class="car-row">
+        <div class="car"><b>1 號車・Peter 駕駛</b>Maggie＋Jason、Claire、Michelle</div>
+        <div class="car"><b>2 號車・Jay 駕駛</b>東東、Poko、Charlotte、Jye</div>
+        <div class="car"><b>3 號車・Karen 駕駛</b>Summer＋捷米、Ofelia、Alison</div>
+      </div>
       <p class="room-cap" style="margin:10px 0 0">攜伴同仁與伴侶同車，每車 5 人＋行李；請副駕協助導航與留意路況。</p>
     </article>
   </div>
@@ -588,27 +564,9 @@ footer svg{width:120px;height:auto;display:block;margin:0 auto 6px}
   tick();setInterval(tick,30000);
 
   /* ---------- 房間 ---------- */
-  function rooms(id,list){document.getElementById(id).innerHTML=list.map(function(r,i){
-    return '<div class="bed" aria-label="'+(i+1)+' 號房：'+r.join('、')+'"><div class="bed-head"><i>'+(i+1)+'</i></div><div class="bed-mat"><div class="pillows">'+r.map(function(){return '<span class="pillow"></span>';}).join('')+'</div><div class="quilt">'+r.map(function(n){return '<span>'+n+'</span>';}).join('')+'</div></div></div>';
-  }).join('');}
-  rooms('rooms-tk',[['Peter'],['Maggie','Jason'],['Jay','東東'],['Summer','捷米'],['Michelle','Jye'],['Ofelia','Claire'],['Charlotte','Poko'],['Karen','Alison']]);
-  rooms('rooms-kw',[['Peter'],['Maggie','＋伴侶'],['Jay','＋伴侶'],['Summer','＋伴侶'],['Michelle','Claire'],['Ofelia','Charlotte'],['Karen','Jye'],['Poko','Alison']]);
-
-  /* ---------- 車 ---------- */
-  var ROOF='<svg class="v-roof" viewBox="0 0 200 42" preserveAspectRatio="none" aria-hidden="true"><path d="M34 42 L58 4 L146 4 L172 42" fill="VC" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round" vector-effect="non-scaling-stroke"/><path d="M66 12 L98 12 L98 38 L50 38Z M106 12 L140 12 L158 38 L106 38Z" fill="#E1F0F7" stroke="#3E3A39" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>';
-  var WHEEL='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#fff" stroke="#3E3A39" stroke-width="3"/><circle cx="12" cy="12" r="2.5" fill="#3E3A39"/><path d="M3.5 11 h6 M14.5 11 h6 M12 14.5 v6" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/></svg>';
-  var CARS=[
-    {n:1,c:'#F2A497',d:'Peter',p:['Maggie＋Jason','Claire','Michelle']},
-    {n:2,c:'#A8D3E6',d:'Jay',p:['東東','Poko','Charlotte','Jye']},
-    {n:3,c:'#B9DAA5',d:'Karen',p:['Summer＋捷米','Ofelia','Alison']}
-  ];
-  document.getElementById('cars').innerHTML=CARS.map(function(v){
-    return '<div class="vehicle" style="--vc:'+v.c+'" aria-label="'+v.n+' 號車，駕駛 '+v.d+'，乘客 '+v.p.join('、')+'">'+ROOF.replace('VC',v.c)+
-      '<div class="v-body"><div class="v-top"><span class="plate">'+v.n+' 號車</span><span class="v-cap">5 人＋行李</span></div>'+
-      '<div class="driver">'+WHEEL+'<div><small>駕駛</small><br>'+v.d+'</div></div>'+
-      '<ul class="riders">'+v.p.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div>'+
-      '<span class="wheel l"></span><span class="wheel r"></span></div>';
-  }).join('');
+  function rooms(id,list){document.getElementById(id).innerHTML=list.map(function(r,i){return '<div class="room"><i>'+(i+1)+'</i><span>'+r+'</span></div>';}).join('');}
+  rooms('rooms-tk',['Peter','Maggie<br>Jason','Jay<br>東東','Summer<br>捷米','Michelle<br>Jye','Ofelia<br>Claire','Charlotte<br>Poko','Karen<br>Alison']);
+  rooms('rooms-kw',['Peter','Maggie<br>＋伴侶','Jay<br>＋伴侶','Summer<br>＋伴侶','Michelle<br>Claire','Ofelia<br>Charlotte','Karen<br>Jye','Poko<br>Alison']);
 
   /* ---------- 清單 ---------- */
   var TODO=[
